@@ -1,80 +1,43 @@
 import 'dart:io';
+import 'dart:convert';
+import 'banco_service.dart';
 
 void main() async {
+  final banco = BancoService();
   final server = await ServerSocket.bind('127.0.0.1', 4000);
   print('Servidor ativo em ${server.address.address}:${server.port}');
 
-  final contas = <String, double>{};
-
   await for (final socket in server) {
-    socket.listen((data) {
-      final mensagem = String.fromCharCodes(data).trim();
-      final partes = mensagem.split(' ');
-      final comando = partes[0].toUpperCase();
+    print('Cliente conectado: ${socket.remoteAddress.address}');
+    socket.writeln('Bem-vindo ao banco distribuído!');
+    utf8.decoder.bind(socket).listen((data) {
+      final comando = data.trim().split(' ');
+      final acao = comando[0].toUpperCase();
 
-      String resposta = '[ERRO] Comando inválido.';
-
-      switch (comando) {
+      String resposta;
+      switch (acao) {
         case 'CRIAR':
-          if (partes.length == 2) {
-            final id = partes[1];
-            if (contas.containsKey(id)) {
-              resposta = '[FALHA] Conta já existe.';
-            } else {
-              contas[id] = 0.0;
-              resposta = '[SUCESSO] Conta $id criada.';
-            }
-          }
+          resposta = banco.criarConta(comando[1]);
           break;
-
         case 'DEPOSITAR':
-          if (partes.length == 3) {
-            final id = partes[1];
-            final valor = double.tryParse(partes[2]) ?? 0;
-            if (contas.containsKey(id)) {
-              contas[id] = contas[id]! + valor;
-              resposta = '[SUCESSO] Depósito de $valor realizado.';
-            } else {
-              resposta = '[FALHA] Conta inexistente.';
-            }
-          }
+          resposta = banco.depositar(comando[1], double.parse(comando[2]));
           break;
-
         case 'SACAR':
-          if (partes.length == 3) {
-            final id = partes[1];
-            final valor = double.tryParse(partes[2]) ?? 0;
-            if (contas.containsKey(id)) {
-              if (contas[id]! >= valor) {
-                contas[id] = contas[id]! - valor;
-                resposta = '[SUCESSO] Saque de $valor realizado.';
-              } else {
-                resposta = '[FALHA] Saldo insuficiente.';
-              }
-            } else {
-              resposta = '[FALHA] Conta inexistente.';
-            }
-          }
+          resposta = banco.sacar(comando[1], double.parse(comando[2]));
           break;
-
         case 'SALDO':
-          if (partes.length == 2) {
-            final id = partes[1];
-            if (contas.containsKey(id)) {
-              resposta = '[SUCESSO] Saldo atual: ${contas[id]}';
-            } else {
-              resposta = '[FALHA] Conta inexistente.';
-            }
-          }
+          resposta = banco.saldo(comando[1]);
           break;
-
         case 'SAIR':
-          socket.write('[INFO] Conexão encerrada.\n');
-          socket.close();
+          resposta = 'Conexão encerrada.';
+          socket.writeln(resposta);
+          socket.destroy();
           return;
+        default:
+          resposta = 'Comando inválido.';
       }
-
-      socket.write('$resposta\n');
+      socket.writeln(resposta);
     });
   }
 }
+

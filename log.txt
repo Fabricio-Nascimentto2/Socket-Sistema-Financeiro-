@@ -1,0 +1,15 @@
+[2025-10-04T19:31:14.058101] Cliente 127.0.0.1 → CRIAR 101 → Conta 101 criada com saldo 0.
+[2025-10-04T19:31:25.922244] Cliente 127.0.0.1 → DEPOSITAR 101 200 → Depósito de 200.0 realizado na conta 101.
+[2025-10-04T19:31:31.149334] Cliente 127.0.0.1 → SALDO 101 → Saldo da conta 101: 200.0
+[2025-10-04T19:31:33.776700] Cliente 127.0.0.1 → SAIR → Saindo...
+[2025-10-04T19:54:15.500392] Cliente 127.0.0.1 → CRIAR 123 → Conta 123 já existe.
+[2025-10-04T19:55:25.403669] Cliente 127.0.0.1 → DEPOSITAR 123 250 → Depósito de 250.0 realizado na conta 123.
+[2025-10-04T19:55:32.685273] Cliente 127.0.0.1 → SALDO 123 → Saldo da conta 123: 250.0
+[2025-10-05T08:15:49.559010] Cliente 127.0.0.1 → CRIAR 123 → Conta 123 já existe.
+[2025-10-05T08:16:00.148720] Cliente 127.0.0.1 → DEPOSITAR 123 250 → Depósito de 250.0 realizado na conta 123.
+[2025-10-05T08:16:08.977579] Cliente 127.0.0.1 → SALDO 123 → Saldo da conta 123: 500.0
+[2025-10-05T08:16:21.369418] Cliente 127.0.0.1 → SACAR 123 150 → Saque de 150.0 realizado na conta 123.
+[2025-10-05T08:16:26.499868] Cliente 127.0.0.1 → SALDO 123 → Saldo da conta 123: 350.0
+[2025-10-05T10:48:22.240953] Cliente 127.0.0.1 → CRIAR 1234 → Conta 1234 criada com saldo 0.
+[2025-10-05T10:48:32.332302] Cliente 127.0.0.1 → DEPOSITAR 1234 200 → Depósito de 200.0 realizado na conta 1234.
+[2025-10-05T10:48:38.459986] Cliente 127.0.0.1 → SALDO 1234 → Saldo da conta 1234: 200.0
